@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"time"
 
-	"../config"
-	"../models"
-	"../utils"
+	"github.com/shiyongabc/go-websocket-broadcast/src/config"
+	"github.com/shiyongabc/go-websocket-broadcast/src/models"
+	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
 	"github.com/go-redis/redis"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
