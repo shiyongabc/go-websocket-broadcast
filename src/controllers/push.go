@@ -112,10 +112,10 @@ func (c *PushController) checkApiToken(pm config.PushMessage) bool {
 
 //检查push接口参数
 func (c *PushController) checkPushParams(w http.ResponseWriter, pm config.PushMessage) bool {
-	if pm.Token == "" {
-		c.sendError(w, 101, "Token必传")
-		return false
-	}
+	//if pm.Token == "" {
+	//	c.sendError(w, 101, "Token必传")
+	//	return false
+	//}
 
 	if pm.MsgType != 1 && pm.MsgType != 2 && pm.MsgType != 3 {
 		c.sendError(w, 102, "MsgType参数错误")
@@ -147,10 +147,10 @@ func (c *PushController) checkPushParams(w http.ResponseWriter, pm config.PushMe
 		return false
 	}
 
-	if !c.checkApiToken(pm) {
-		c.sendError(w, 107, "Token 验证失败")
-		return false
-	}
+	//if !c.checkApiToken(pm) {
+	//	c.sendError(w, 107, "Token 验证失败")
+	//	return false
+	//}
 
 	return true
 }
