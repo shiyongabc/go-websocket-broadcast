@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"../config"
+	"github.com/shiyongabc/go-websocket-broadcast/src/config"
 )
 
 type PushMessageLogModel struct {
