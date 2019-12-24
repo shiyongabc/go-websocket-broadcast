@@ -47,18 +47,18 @@ func (c *Client) Read() {
 			continue
 		}
 
-		if rm.Token == "" {
-			c.CloseAndRes(102, "token 必传", "register")
-			break
-		}
+		//if rm.Token == "" {
+		//	c.CloseAndRes(102, "token 必传", "register")
+		//	break
+		//}
 
 		redisClient := utils.BaseRedis.Connect("default")
 		userId := rm.Token[0:8]
 
-		if !c.CheckToken(rm.Token) {
-			c.CloseAndRes(100, "token过期", "register")
-			break
-		}
+		//if !c.CheckToken(rm.Token) {
+		//	c.CloseAndRes(100, "token过期", "register")
+		//	break
+		//}
 
 		utils.BaseRedis.Close(redisClient)
 
@@ -88,11 +88,11 @@ func (c *Client) Write() {
 			var res config.ResMessage
 			json.Unmarshal(message, &res)
 
-			if !c.CheckToken("") {
-				c.CloseAndRes(200, "token过期", "messaage")
-				go c.SaveUserMsgLog(res.Data, 2)
-				break
-			}
+			//if !c.CheckToken("") {
+			//	c.CloseAndRes(200, "token过期", "messaage")
+			//	go c.SaveUserMsgLog(res.Data, 2)
+			//	break
+			//}
 
 			err := c.Socket.WriteMessage(websocket.TextMessage, message)
 			if err != nil {

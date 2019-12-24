@@ -36,7 +36,7 @@
             }
 
             var that = this;
-            this.ws = new WebSocket("ws://xhx.kaikela.loc/ws/");
+            this.ws = new WebSocket("ws://58.16.65.208:8080/ws");
             this.ws.onclose = function(e) {
                 clearInterval(that.interval)
                 if(!that.retryConnect) {
