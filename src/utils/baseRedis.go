@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"../core"
+	"github.com/shiyongabc/go-websocket-broadcast/src/core"
 	"github.com/go-redis/redis"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )

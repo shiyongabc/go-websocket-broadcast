@@ -3,7 +3,7 @@ package server
 import (
 	"time"
 
-	"../config"
+	"github.com/shiyongabc/go-websocket-broadcast/src/config"
 	log "github.com/sirupsen/logrus"
 )
 

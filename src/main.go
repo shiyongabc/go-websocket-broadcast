@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"./controllers"
-	"./core"
-	"./server"
+	"github.com/shiyongabc/go-websocket-broadcast/src/controllers"
+	"github.com/shiyongabc/go-websocket-broadcast/src/core"
+	"github.com/shiyongabc/go-websocket-broadcast/src/server"
 	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"

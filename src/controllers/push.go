@@ -9,11 +9,11 @@ import (
 	"strings"
 	"time"
 
-	"../config"
-	"../core"
-	"../models"
-	"../server"
-	"../utils"
+	"github.com/shiyongabc/go-websocket-broadcast/src/config"
+	"github.com/shiyongabc/go-websocket-broadcast/src/core"
+	"github.com/shiyongabc/go-websocket-broadcast/src/models"
+	"github.com/shiyongabc/go-websocket-broadcast/src/server"
+	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
 	log "github.com/sirupsen/logrus"
 )
 
