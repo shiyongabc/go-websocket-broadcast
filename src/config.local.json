@@ -1,6 +1,6 @@
 {
     "AppName":"xhx_pushservice",
-    "Listen": ":9002",
+    "Listen": ":8080",
     "APISecret":"dev",
     "BasePath":"/mnt/hgfs/git/xhx_pushservice/src",
     "Logger": {
@@ -13,12 +13,12 @@
     "DataBase": {
         "default": {
             "DriverName": "mysql",
-            "DataSourceName": "root:mst112233@tcp(10.0.0.49:3306)/kaikela_support?charset=utf8mb4"
+            "DataSourceName": "root:mst112233@tcp(58.16.65.208:3306)/kaikela_support?charset=utf8mb4"
         }
     },
     "Redis": {
         "default":{
-            "Addr": "10.0.0.49:6379",
+            "Addr": "58.16.65.208:6379",
             "Password": "", 
             "DB":0
         }

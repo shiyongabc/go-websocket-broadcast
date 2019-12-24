@@ -91,7 +91,7 @@ client.html
             }
 
             var that = this;
-            this.ws = new WebSocket("ws://127.0.0.1:9002/ws/");
+            this.ws = new WebSocket("ws://127.0.0.1:8080/ws/");
             this.ws.onclose = function(e) {
                 clearInterval(that.interval)
                 if(!that.retryConnect) {

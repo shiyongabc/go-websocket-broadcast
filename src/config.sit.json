@@ -13,12 +13,12 @@
     "DataBase": {
         "default": {
             "DriverName": "mysql",
-            "DataSourceName": "root:mst112233@tcp(10.0.0.49:3306)/kaikela_support_sit?charset=utf8mb4"
+            "DataSourceName": "root:mst112233@tcp(58.16.65.208:3306)/kaikela_support_sit?charset=utf8mb4"
         }
     },
     "Redis": {
         "default":{
-            "Addr": "10.0.0.49:6378",
+            "Addr": "58.16.65.208:6378",
             "Password": "", 
             "DB":0
         }
