@@ -55,7 +55,7 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 	data := config.MessageData{SenderId: pm.SenderId, MsgTime: time.Now().Format(config.TIMESTAMP_FORMAT), SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
 		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType}
 	message, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "message", Data: data})
-
+    println("message=%s",message)
 	if pm.UserIds == "0" { //发全部
 		server.Manager.Broadcast <- message
 	} else {
