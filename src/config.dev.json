@@ -19,7 +19,7 @@
     "Redis": {
         "default":{
             "Addr": "58.16.65.208:6379",
-            "Password": "", 
+            "Password": "skdfhksdhfsjhfkjhdkwtnmrentmer", 
             "DB":0
         }
     }
