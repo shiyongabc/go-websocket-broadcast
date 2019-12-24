@@ -13,7 +13,7 @@
     "DataBase": {
         "default": {
             "DriverName": "mysql",
-            "DataSourceName": "root:skdfhksdhfsjhfkjhdkwtnmrentmer@tcp(58.16.65.208:50070)/kaikela_support?charset=utf8mb4"
+            "DataSourceName": "root:skdfhksdhfsjhfkjhdkwtnmrentmer@tcp(58.16.65.208:50070)/message?charset=utf8mb4"
         }
     },
     "Redis": {

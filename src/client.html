@@ -79,7 +79,7 @@
                 }
 
                 if(res.event == 'message') {
-                    let options = JSON.parse(res.data.options);
+                    let options = res.data;
                     that.$notify.info({
                         title: res.data.title != '' ? res.data.title : '通知',
                         message: res.data.content,

@@ -2,7 +2,8 @@
 SQLyog Professional v12.08 (64 bit)
 MySQL - 5.7.25-log : Database - kaikela_support
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -12,9 +13,9 @@ MySQL - 5.7.25-log : Database - kaikela_support
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`kaikela_support` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`message` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `kaikela_support`;
+USE `message`;
 
 /*Table structure for table `xhx_push_message` */
 
