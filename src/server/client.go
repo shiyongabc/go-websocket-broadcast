@@ -32,7 +32,7 @@ func (c *Client) Read() {
 		//如果读取不到token数据关闭连接
 		if err != nil {
 			c.Close()
-			log.Debug("读取socket数据失败")
+			log.Debug("读取socket数据失败:%s",err.Error())
 			break
 		}
 
