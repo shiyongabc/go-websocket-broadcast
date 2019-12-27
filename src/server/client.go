@@ -115,7 +115,11 @@ func (c *Client) SaveUserMsgLog(data config.MessageData, status int) {
 //发送给用户最近未读的必达消息
 func (c *Client) SendMustReadMsg() {
 	var pushMsgLogModel models.PushMessageLogModel
-	msgData := pushMsgLogModel.GetMustReadMsgByUserId(c.UserId, time.Now().Unix()-config.LAST_MSG_TIME_LIMIT)
+	log.Printf("c.userId=",c.UserId)
+	msg_limit:=time.Now().Unix()-config.LAST_MSG_TIME_LIMIT
+	log.Printf("msg_limit=",msg_limit)
+	msgData := pushMsgLogModel.GetMustReadMsgByUserId(c.UserId, msg_limit)
+	log.Printf("msgData=",len(msgData))
 	for _, row := range msgData {
 		message, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "message", Data: row})
 		c.Send <- message

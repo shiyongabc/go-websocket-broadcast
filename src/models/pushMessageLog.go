@@ -100,7 +100,7 @@ func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime in
 	var data []PushMessageLogModel
 	db.Where("user_id = ? and msg_type = 2 and status in(0, 2) and deleted = 0 and UNIX_TIMESTAMP(create_time) > ? ",
 		userId, unixtime).Limit(config.LAST_MSG_NUM_LIMIT).Find(&data)
-
+    
 	for _, row := range data {
 		//对发送失败的消息做重复发送检查
 		if row.Status == 2 {
