@@ -89,7 +89,7 @@ func (pml PushMessageLogModel) SetDeleted(id int64) {
 }
 
 //获取用户最近的必读消息
-func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId int64, unixtime int64) []config.MessageData {
+func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime int64) []config.MessageData {
 	db, err := BaseModel.ConnectDB("default")
 	var mustReadData []config.MessageData
 	if err != nil {
