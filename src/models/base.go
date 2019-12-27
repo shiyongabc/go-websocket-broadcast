@@ -2,6 +2,7 @@ package models
 import (
 	"github.com/shiyongabc/go-websocket-broadcast/src/core"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	log "github.com/sirupsen/logrus"
 )
 
