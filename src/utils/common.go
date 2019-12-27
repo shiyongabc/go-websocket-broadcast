@@ -84,23 +84,20 @@ func ObtainUserByToken(authorization string,key string) string{
 	//  a,error:=  jwt.DecodeSegment(jwtToken)
 	var cl jwt.MapClaims
 	//	var cc Claims
-	if token==nil{
-		return ""
-	}
 	cl = token.Claims.(jwt.MapClaims)
-	userIdJwt:=cl[key]
-	var userIdJwtStr string
-	switch userIdJwt.(type){
+	userJwt:=cl[key]
+	var userJwtStr string
+	switch userJwt.(type){
 	case string:
-		if userIdJwt!=nil{
-			userIdJwtStr=userIdJwt.(string)
+		if userJwt!=nil{
+			userJwtStr=userJwt.(string)
 		}
 	case float64:
-		if userIdJwt!=nil{
-			userIdJwtStr=strconv.FormatFloat(userIdJwt.(float64), 'f', -1, 64)
+		if userJwt!=nil{
+			userJwtStr=strconv.FormatFloat(userJwt.(float64), 'f', -1, 64)
 		}
 	}
-	return userIdJwtStr
+	return userJwtStr
 }
 func GetValidationKey(*jwt.Token) (interface{}, error) {
 	//return []byte("-----BEGIN PUBLIC KEY-----\n"+

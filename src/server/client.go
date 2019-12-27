@@ -16,7 +16,7 @@ type Client struct {
 	ID           string
 	Socket       *websocket.Conn
 	Send         chan []byte
-	UserId       int64
+	UserId       string
 	Token        string
 	RegisterTime int64
 }
@@ -58,7 +58,9 @@ func (c *Client) Read() {
 		}
 
 		c.Token = rm.Token
-
+		userId:=utils.ObtainUserByToken(c.Token,"userId")
+		log.Printf("userId=",userId)
+		c.UserId=userId
 		jsonMessage, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "register"})
 		c.Send <- jsonMessage
 

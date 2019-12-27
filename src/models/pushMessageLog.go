@@ -11,7 +11,7 @@ type PushMessageLogModel struct {
 	MsgId      int64
 	MsgType    int
 	ClientId   string
-	UserId     int64
+	UserId     string
 	Status     int
 	Deleted    int
 	CreateTime string
@@ -46,7 +46,7 @@ func (PushMessageLogModel) CreateWaiteMessageLogs(waitUserIds []interface{}, msg
 }
 
 //新增发送日志 status 1 发送成功 2发送失败 delete是否册除
-func (PushMessageLogModel) Create(msgId int64, msgType int, userId int64, clientId string, status int) int64 {
+func (PushMessageLogModel) Create(msgId int64, msgType int, userId string, clientId string, status int) int64 {
 	db, err := BaseModel.ConnectDB("default")
 	if err != nil {
 		return 0

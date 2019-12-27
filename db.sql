@@ -44,7 +44,7 @@ CREATE TABLE `xhx_push_message_log` (
   `msg_id` bigint(15) NOT NULL COMMENT 'push message表消息id',
   `msg_type` tinyint(1) NOT NULL COMMENT '消息类型1即时消息 2必达',
   `client_id` varchar(60) DEFAULT '' COMMENT '客户端id',
-  `user_id` bigint(15) NOT NULL COMMENT '接收者用户id',
+  `user_id` varchar(128) NOT NULL COMMENT '接收者用户id',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0待发送 1发送成功 2发送失败',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否删除0未删1已删除',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
