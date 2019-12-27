@@ -35,7 +35,7 @@ func (PushMessageLogModel) CreateWaiteMessageLogs(waitUserIds []interface{}, msg
 
 	for _, waitUserId := range waitUserIds {
 		userId := waitUserId.(string)
-		if userId <= 0 {
+		if userId =="" {
 			continue
 		}
 		pml := PushMessageLogModel{MsgId: msgId, MsgType: msgType, CreateTime: createTime, UserId: userId, UpdateTime: createTime}
