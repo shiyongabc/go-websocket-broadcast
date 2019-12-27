@@ -5,11 +5,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gorilla/websocket"
 	"github.com/shiyongabc/go-websocket-broadcast/src/config"
 	"github.com/shiyongabc/go-websocket-broadcast/src/models"
 	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
-	"github.com/go-redis/redis"
-	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -47,22 +46,17 @@ func (c *Client) Read() {
 			continue
 		}
 
-		//if rm.Token == "" {
-		//	c.CloseAndRes(102, "token 必传", "register")
-		//	break
-		//}
+		if rm.Token == "" {
+			c.CloseAndRes(102, "token 必传", "register")
+			break
+		}
 
-		redisClient := utils.BaseRedis.Connect("default")
-		userId := rm.Token[0:8]
 
-		//if !c.CheckToken(rm.Token) {
-		//	c.CloseAndRes(100, "token过期", "register")
-		//	break
-		//}
+		if !c.CheckToken(rm.Token) {
+			c.CloseAndRes(100, "token过期", "register")
+			break
+		}
 
-		utils.BaseRedis.Close(redisClient)
-
-		c.UserId, _ = strconv.ParseInt(userId, 10, 64)
 		c.Token = rm.Token
 
 		jsonMessage, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "register"})
@@ -88,11 +82,11 @@ func (c *Client) Write() {
 			var res config.ResMessage
 			json.Unmarshal(message, &res)
 
-			//if !c.CheckToken("") {
-			//	c.CloseAndRes(200, "token过期", "messaage")
-			//	go c.SaveUserMsgLog(res.Data, 2)
-			//	break
-			//}
+			if !c.CheckToken("") {
+				c.CloseAndRes(200, "token过期", "messaage")
+				go c.SaveUserMsgLog(res.Data, 2)
+				break
+			}
 
 			err := c.Socket.WriteMessage(websocket.TextMessage, message)
 			if err != nil {
@@ -147,10 +141,6 @@ func (c *Client) CloseAndRes(errCode int, msg string, event string) {
 
 //check user login token
 func (c *Client) CheckToken(reqToken string) bool {
-	redisClient := utils.BaseRedis.Connect("default")
-	defer func() {
-		redisClient.Close()
-	}()
 	if reqToken == "" {
 		reqToken = c.Token
 	}
@@ -159,25 +149,15 @@ func (c *Client) CheckToken(reqToken string) bool {
 		return false
 	}
 
-	userId := reqToken[0:8]
-	key := config.XHX_SESSION_NAME + userId
-	token, err3 := redisClient.HGet(key, "token").Result()
-
-	if err3 == redis.Nil {
-		log.Debug("redis key not exist")
+	var expSecond string
+	expSecond=utils.ObtainUserByToken(reqToken,"exp")
+	 exp, err:= strconv.ParseInt(expSecond, 10, 64)
+     log.Printf("exp=",exp)
+     if err!=nil{
+     	log.Printf("err=",err.Error())
+	 }
+	if (time.Now().After(time.Unix(exp,0))){
 		return false
 	}
-
-	if token != reqToken {
-		log.Debug("token expired1")
-		return false
-	}
-
-	adminIdCheck, _ := redisClient.HExists(key, "admin_id").Result()
-	if !adminIdCheck {
-		log.Debug("token expired, admin_id is false")
-		return false
-	}
-
 	return true
 }

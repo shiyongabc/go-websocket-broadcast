@@ -1,0 +1,115 @@
+package utils
+
+import (
+	"strconv"
+	"strings"
+	"time"
+	"fmt"
+	"github.com/shiyongabc/jwt-go"
+	log "github.com/sirupsen/logrus"
+)
+
+var (
+	machineID     int64 // 机器 id 占10位, 十进制范围是 [ 0, 1023 ]
+	sn            int64 // 序列号占 12 位,十进制范围是 [ 0, 4095 ]
+	lastTimeStamp int64 // 上次的时间戳(毫秒级), 1秒=1000毫秒, 1毫秒=1000微秒,1微秒=1000纳秒
+)
+
+
+func init() {
+	lastTimeStamp = time.Now().UnixNano() / 1000000
+}
+
+
+func SetMachineId(mid int64) {
+	// 把机器 id 左移 12 位,让出 12 位空间给序列号使用
+	machineID = mid << 12
+}
+
+func GetSnowflakeId() int64 {
+	curTimeStamp := time.Now().UnixNano() / 1000000
+
+	// 同一毫秒
+	if curTimeStamp == lastTimeStamp {
+		sn++
+		// 序列号占 12 位,十进制范围是 [ 0, 4095 ]
+		if sn > 4095 {
+			time.Sleep(time.Millisecond)
+			curTimeStamp = time.Now().UnixNano() / 1000000
+			lastTimeStamp = curTimeStamp
+			sn = 0
+		}
+
+		// 取 64 位的二进制数 0000000000 0000000000 0000000000 0001111111111 1111111111 1111111111  1 ( 这里共 41 个 1 )和时间戳进行并操作
+		// 并结果( 右数 )第 42 位必然是 0,  低 41 位也就是时间戳的低 41 位
+		rightBinValue := curTimeStamp & 0x1FFFFFFFFFF
+		// 机器 id 占用10位空间,序列号占用12位空间,所以左移 22 位; 经过上面的并操作,左移后的第 1 位,必然是 0
+		rightBinValue <<= 22
+		id := rightBinValue | machineID | sn
+		return id
+	}
+
+
+	if curTimeStamp > lastTimeStamp {
+		sn = 0
+		lastTimeStamp = curTimeStamp
+		// 取 64 位的二进制数 0000000000 0000000000 0000000000 0001111111111 1111111111 1111111111  1 ( 这里共 41 个 1 )和时间戳进行并操作
+		// 并结果( 右数 )第 42 位必然是 0,  低 41 位也就是时间戳的低 41 位
+		rightBinValue := curTimeStamp & 0x1FFFFFFFFFF
+		// 机器 id 占用10位空间,序列号占用12位空间,所以左移 22 位; 经过上面的并操作,左移后的第 1 位,必然是 0
+		rightBinValue <<= 22
+		id := rightBinValue | machineID | sn
+		return id
+	}
+
+
+	if curTimeStamp < lastTimeStamp {
+		return 0
+	}
+
+	return 0
+}
+func TypeOf(v interface{}) string {
+	return fmt.Sprintf("%T", v)
+}
+func ObtainUserByToken(authorization string,key string) string{
+	if authorization==""{
+		return ""
+	}
+	jwtToken:=  authorization;
+	jwtToken= strings.Replace(jwtToken,"bearer%20","",-1)
+	token,error:=  jwt.Parse(jwtToken,GetValidationKey)
+	log.Printf("jwtToken=",error)
+	//token,error:=ParseWithClaims(jwtToken,MapClaims{},getValidationKey)
+	//  a,error:=  jwt.DecodeSegment(jwtToken)
+	var cl jwt.MapClaims
+	//	var cc Claims
+	cl = token.Claims.(jwt.MapClaims)
+	userIdJwt:=cl[key]
+	var userIdJwtStr string
+	if userIdJwt!=nil{
+		userIdJwtStr=userIdJwt.(string)
+	}
+	switch userIdJwt.(type){
+	case string:
+		if userIdJwt!=nil{
+			userIdJwtStr=userIdJwt.(string)
+		}
+	case float64:
+		if userIdJwt!=nil{
+			userIdJwtStr=strconv.FormatFloat(userIdJwt.(float64), 'f', -1, 64)
+		}
+	}
+	return userIdJwtStr
+}
+func GetValidationKey(*jwt.Token) (interface{}, error) {
+	//return []byte("-----BEGIN PUBLIC KEY-----\n"+
+	//"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgNyqMbehSVf5AxAVO+v/K3FmgkvwKeI0VcySCDjl/Lag55EuOxBWUPLKBu/ujnpK34mohr0uhPn/UhawNuXM96zz1wKEFUqE8F9Srwg/V2o+Ugl8ZuCQxtSpCVVwc+RfpL60Y5zWYlrYO2JTmCIhfZ9cG4NzE0n/TV6PHeVsjpucFiMcUD+V6nHDSzuXCOVnp1UIuaf8cL3y1EXDanndYeABeOt2xg3elXLNO5VGJTKfhstbfn/YspdBScA7tGR5uQ4upHD4pIg6OxCyTs27DvnIAQMdQ+OnMJR02e4gC1eDw//txsw/y2UcsZFthfK77lvACPySBukiK+C0qjLBfj9QIDAQAB\n"+
+	//"-----END PUBLIC KEY-----"), nil
+	//return []byte("MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCA3Koxt6FJV/kDEBU76/8rcWaCS/Ap4jRVzJIIOOX8tqDnkS47EFZQ8soG7+6OekrfiaiGvS6E+f9SFrA25cz3rPPXAoQVSoTwX1KvCD9Xaj5SCXxm4JDG1KkJVXBz5F+kvrRjnNZiWtg7YlOYIiF9n1wbg3MTSf9NXo8d5WyOm5wWIxxQP5XqccNLO5cI5WenVQi5p/xwvfLURcNqed1h4AF463bGDd6Vcs07lUYlMp+Gy1t+f9iyl0FJwDu0ZHm5Di6kcPikiDo7ELJOzbsO+cgBAx1D46cwlHTZ7iALV4PBPGzD/LZRyxkW2F8rvuW8AI/JIG6SIr4LSqMsF+P1AgMBAAECggEANrBwMuWCOAR0FE6xFFtWUnOwU8AyzzPHjlph58duJFDF/UFqY3rNh1FjWIpfrmxMdo6PzY9gvOL07zvd0Y657KukWS4iLH8R6IosJ0jSySC4Dk0kVO0dxKTgkKuILEdSKDMfj98yRU/U0W8rlzd1C0Gk77BcGGWhSo7FIqUJ64OVUvwW1BWkwkZ7aXFtYvgcyN1AmMjc8AoJzJdEoBKlAw41/WMESt6QSKWoWziUxdkrmRlUsvwQHfP9c2BZnkxIPhpGDSkIHAeBj47+JC3hsFuqZM5ahwdma9p9ONz/00PrnB5p399mqW2dknzBIg1TRg2xN9DcqNeo07U0AGJLSQKBgQDiUZIH0rzruLtjF33JQDRc963kfgJHGxM9inH3FJVE7NDJHaOyVjaIxRPG5/7RGEYrrJDZE69iP2ohzK6ew7nGbZN7KaKfKY5Vc4egVZcBMubR5+djwjIqHMTcuJgz/Qu17cvF42rUqpBnS2BbWDRj6+TE0zYEjqdsXri+UiXHgwKBgQCRwxTBEEqazkw8+EtV1XPyp5u3Er/sg3T6CVWU7vsGX8l2bpl3CEUXawkkZaffCi5ukR8xnyQnWcD7RHdO3ab6G1sl+49dNRpZyg1fCXfDPtt5Aut3CoCQsFNit1chdHsyUJiGDZo72EP/75Bak2dDENcxYyEsbFSqUH4pywhVJwKBgFp1hivwVKjXXrbdxd4x9nwOV4gTwa9QKCGZ+7Fpnbw997nbSfnXMdb7BsujIRvMWwfL4t2RW7GmbTJzUHyO+OtSEvfQjXqWrpiDI/u3GjNVeCMAUWFzVn+0ng8nDVcCVrLyCFfhbWrxfeR7oVkBaXdi6z6suVOa/Vp4hdk0lnsnAoGAcBPoaWr1coMd6+OfSaiPNw3ZlbM9D8cksv1qaNI5AnW0mvP/3J7nQVJz/SCNK9rQSQQdUDJlwjwpPwsuEd4s/jL6qwH7AlhKoq/SCDlndSFn8GxmUWop4Rczhrwiqv69m7qNDMZ4yXtJDgpOnNaql87jKH5oi5fgofSyjcAn8BECgYEAh5aOvUmVHqz+L9WcdU1DWzUo2JvNgOfkOzsCRFQkQq/NOCFofysccmoKjPieSgr7oOyrBCVsYRi2ZYrUfL6nvKkqSjYV94bjEyZthb53Uv3euQmZQjMpPKHFs4ae1rB7RUBjH6JiCTjyd7iTnKem7s9uR/DVeNjZe1lT6LWKlmY="),nil
+	return []byte("SHA256withRSA"),nil
+}
+//func main() {
+//	id:=GetSnowflakeId()
+//	fmt.Println(id)
+//}
