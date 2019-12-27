@@ -8,5 +8,5 @@ go get -u github.com/satori/go.uuid
 go get -u github.com/lestrrat-go/file-rotatelogs
 go get -u github.com/pkg/errors
 go get -u github.com/rifflock/lfshook
-
+go get -u github.com/shiyongabc/jwt-go
 echo "执行完毕"
