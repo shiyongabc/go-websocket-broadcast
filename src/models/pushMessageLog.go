@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
 	"time"
 
 	"github.com/shiyongabc/go-websocket-broadcast/src/config"
@@ -34,7 +35,7 @@ func (PushMessageLogModel) CreateWaiteMessageLogs(waitUserIds []interface{}, msg
 	}
 
 	for _, waitUserId := range waitUserIds {
-		userId := waitUserId.(string)
+		userId := utils.InterToStr(waitUserId)
 		if userId =="" {
 			continue
 		}
