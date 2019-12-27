@@ -4,6 +4,8 @@ import (
 	"crypto/md5"
 	"encoding/json"
 	"fmt"
+	"github.com/shiyongabc/go-websocket-broadcast/src/server"
+	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
 	"net/http"
 	"strconv"
 	"strings"
@@ -12,8 +14,7 @@ import (
 	"github.com/shiyongabc/go-websocket-broadcast/src/config"
 	"github.com/shiyongabc/go-websocket-broadcast/src/core"
 	"github.com/shiyongabc/go-websocket-broadcast/src/models"
-	"github.com/shiyongabc/go-websocket-broadcast/src/server"
-	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -60,7 +61,7 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 		server.Manager.Broadcast <- message
 	} else {
 		userIdsArr := strings.Split(pm.UserIds, ",")
-		var userIds = make([]interface{}, 0)
+		var userIds = make([]interface{},0)
 		for _, userId := range userIdsArr {
 			userId = strings.Trim(userId, " ")
 			userIds = append(userIds, userId)

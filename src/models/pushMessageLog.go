@@ -1,9 +1,7 @@
 package models
-
 import (
 	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
 	"time"
-
 	"github.com/shiyongabc/go-websocket-broadcast/src/config"
 )
 
