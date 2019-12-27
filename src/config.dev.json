@@ -2,24 +2,24 @@
     "AppName":"xhx_pushservice",
     "Listen": ":8080",
     "APISecret":"dev",
-    "BasePath":"",
+    "BasePath":"/mnt/hgfs/git/xhx_pushservice/src",
     "Logger": {
         "Debug": true,
         "OutFile": true,
-        "LogPath":"/var/log/mst/xhx_pushservice_dev",
-        "MaxAge": 360, 
+        "LogPath":"/var/log/mst/xhx_pushservice",
+        "MaxAge": 360,
         "RotationTime" : 1
     },
     "DataBase": {
         "default": {
             "DriverName": "mysql",
-            "DataSourceName": "root:skdfhksdhfsjhfkjhdkwtnmrentmer@tcp(58.16.65.208:50070)/message?charset=utf8mb4"
+            "DataSourceName": "root:mst112233@tcp(localhost:3306)/message?charset=utf8mb4"
         }
     },
     "Redis": {
         "default":{
-            "Addr": "58.16.65.208:6379",
-            "Password": "skdfhksdhfsjhfkjhdkwtnmrentmer",
+            "Addr": "localhost:6379",
+            "Password": "",
             "DB":0
         }
     }
