@@ -63,7 +63,6 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 		var userIds = make([]interface{}, 0)
 		for _, userId := range userIdsArr {
 			userId = strings.Trim(userId, " ")
-			userId, _ := strconv.ParseInt(userId, 10, 64)
 			userIds = append(userIds, userId)
 		}
 

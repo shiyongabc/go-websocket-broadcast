@@ -58,8 +58,11 @@ func (manager *ClientManager) Send(message []byte, ignore *Client) {
 //发送消息，返回已执行发送的用户id
 func (manager *ClientManager) SendMsgToUsers(message []byte, userIds []interface{}) []interface{} {
 	var sendUserIds = make([]interface{}, 0)
+
 	for conn := range manager.Clients {
+		log.Printf("all-c.userId=",conn.UserId)
 		for _, userId := range userIds {
+			log.Printf("push-c.userId=",conn.UserId)
 			if conn.UserId == userId {
 				conn.Send <- message
 				sendUserIds = append(sendUserIds, userId)
