@@ -82,7 +82,7 @@ func (manager *ClientManager) CloseTask() {
 
 				//超时未登录关闭连接
 				if time.Now().Unix()-conn.RegisterTime > config.CLIENT_REGISTER_TIMEOUT {
-					if conn.UserId == 0 {
+					if conn.UserId == "" {
 						conn.Close()
 					}
 				}
