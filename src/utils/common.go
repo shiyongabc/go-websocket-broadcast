@@ -90,9 +90,6 @@ func ObtainUserByToken(authorization string,key string) string{
 	cl = token.Claims.(jwt.MapClaims)
 	userIdJwt:=cl[key]
 	var userIdJwtStr string
-	if userIdJwt!=nil{
-		userIdJwtStr=userIdJwt.(string)
-	}
 	switch userIdJwt.(type){
 	case string:
 		if userIdJwt!=nil{
