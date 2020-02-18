@@ -34,7 +34,7 @@ func main() {
 	http.HandleFunc("/ws", wsPage)
 	var pc controllers.PushController
 	http.HandleFunc("/message/push", pc.Push)
-
+	http.HandleFunc("/message/update_status", pc.UpdateReadStatus)
 	log.Fatal(http.ListenAndServe(core.Config.Listen, nil))
 }
 
