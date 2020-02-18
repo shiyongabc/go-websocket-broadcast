@@ -33,7 +33,7 @@ func main() {
 	log.Infof("Server started %s ...", core.Config.Listen)
 	http.HandleFunc("/ws", wsPage)
 	var pc controllers.PushController
-	http.HandleFunc("/push", pc.Push)
+	http.HandleFunc("/message/push", pc.Push)
 
 	log.Fatal(http.ListenAndServe(core.Config.Listen, nil))
 }

@@ -51,10 +51,10 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 	//数据写入到数据库
 	var pushMsgModel models.PushMessageModel
 	msgId := pushMsgModel.Create(models.PushMessageModel{SenderId: pm.SenderId, SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
-		Options: pm.Options, MsgType: pm.MsgType, UserIds: pm.UserIds})
+		Options: pm.Options, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType, UserIds: pm.UserIds})
 
 	data := config.MessageData{SenderId: pm.SenderId, MsgTime: time.Now().Format(config.TIMESTAMP_FORMAT), SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
-		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType}
+		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType}
 	message, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "message", Data: data})
     println("message=%s",message)
 	if pm.UserIds == "0" { //发全部
@@ -85,6 +85,57 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 	c.sendOk(w, "ok")
 }
 
+func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPut {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		fmt.Fprintf(w, "method not allowed!")
+		return
+	}
+
+	// read request
+	var pm config.UpdateMessage
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&pm); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintf(w, "bad request!")
+		log.Error("push message error: " + err.Error())
+		return
+	}
+
+	if !CheckToken(r) {
+		return
+	}
+
+	//数据写入到数据库
+	var pushMsgModel models.PushMessageModel
+	RowsAffected:= pushMsgModel.Update(models.PushMessageModel{ID: pm.ID,IsRead:1, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType, UserIds: pm.UserIds})
+	c.sendOk(w,RowsAffected)
+}
+func CheckToken(r *http.Request) bool {
+	var reqToken string
+	cookie,error:=r.Cookie("Authorization")
+	if error !=nil {
+		return false
+	}
+	if cookie !=nil {
+		reqToken = cookie.Value
+	}
+
+
+
+	var expSecond string
+	expSecond=utils.ObtainUserByToken(reqToken,"exp")
+	exp, err:= strconv.ParseInt(expSecond, 10, 64)
+	log.Printf("exp=",exp)
+	if err!=nil{
+		log.Printf("err=",err.Error())
+	}
+	if (time.Now().After(time.Unix(exp,0))){
+		return false
+	}
+	return true
+}
 //push api接口token校验
 func (c *PushController) checkApiToken(pm config.PushMessage) bool {
 	var str string
