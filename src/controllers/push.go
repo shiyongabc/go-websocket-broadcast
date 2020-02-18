@@ -99,11 +99,12 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 	if err := decoder.Decode(&pm); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintf(w, "bad request!")
-		log.Error("push message error: " + err.Error())
+		log.Error("param error: " + err.Error())
 		return
 	}
 
 	if !CheckToken(r) {
+		c.sendError(w,-1,"必须带有认证信息")
 		return
 	}
 
