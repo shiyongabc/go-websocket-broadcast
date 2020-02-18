@@ -102,8 +102,12 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 		log.Error("param error: " + err.Error())
 		return
 	}
-
-	if !CheckToken(r) {
+    reqCookie,error:=r.Cookie("Authorization")
+    if error!=nil{
+		log.Printf("error=",error.Error())
+		c.sendError(w,-1,"必须带有认证信息")
+	}
+	if !CheckToken(reqCookie.Value) {
 		c.sendError(w,-1,"必须带有认证信息")
 		return
 	}
@@ -113,16 +117,7 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 	RowsAffected:= pushMsgModel.Update(models.PushMessageModel{ID: pm.ID,IsRead:1, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType, UserIds: pm.UserIds})
 	c.sendOk(w,RowsAffected)
 }
-func CheckToken(r *http.Request) bool {
-	var reqToken string
-	cookie,error:=r.Cookie("Authorization")
-	if error !=nil {
-		return false
-	}
-	if cookie !=nil {
-		reqToken = cookie.Value
-	}
-
+func CheckToken(reqToken string) bool {
 
 
 	var expSecond string
