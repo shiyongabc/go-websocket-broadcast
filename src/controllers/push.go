@@ -108,6 +108,7 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 		c.sendError(w,-1,"必须带有认证信息")
 	}
 	if !CheckToken(reqCookie.Value) {
+		log.Printf("reqCookie.Value=",reqCookie.Value)
 		c.sendError(w,-1,"认证信息无效")
 		return
 	}
