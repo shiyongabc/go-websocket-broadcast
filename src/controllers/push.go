@@ -102,6 +102,7 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 		log.Error("param error: " + err.Error())
 		return
 	}
+	log.Printf("UpdateMessage=",pm)
     reqCookie,error:=r.Cookie("Authorization")
     if error!=nil{
 		log.Printf("error=",error.Error())
