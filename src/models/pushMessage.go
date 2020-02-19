@@ -12,6 +12,7 @@ type PushMessageModel struct {
 	Options    string
 	MsgType    int
 	BusMsgType int
+	MsgKey string
 	IsRead int
 	UserIds    string
 	SenderId   int64

@@ -51,10 +51,10 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 	//数据写入到数据库
 	var pushMsgModel models.PushMessageModel
 	msgId := pushMsgModel.Create(models.PushMessageModel{SenderId: pm.SenderId, SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
-		Options: pm.Options, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType, UserIds: pm.UserIds})
+		Options: pm.Options, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType,MsgKey:pm.MsgKey, UserIds: pm.UserIds})
 
 	data := config.MessageData{SenderId: pm.SenderId, MsgTime: time.Now().Format(config.TIMESTAMP_FORMAT), SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
-		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType}
+		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType,MsgKey:pm.MsgKey}
 	message, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "message", Data: data})
     println("message=%s",message)
 	if pm.UserIds == "0" { //发全部

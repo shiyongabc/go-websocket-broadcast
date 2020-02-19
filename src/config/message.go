@@ -27,6 +27,7 @@ type PushMessage struct {
 	Token      string //api token
 	MsgType    int    //消息类型 1发送在线用户即时消息 2登录后必达消息
 	BusMsgType int
+	MsgKey string
 	UserIds    string //用户id以,号分隔
 	SenderId   int64  //发送者id
 	SenderName string //发送者姓名
@@ -46,6 +47,7 @@ type MessageData struct {
 	Options    string `json:"options"`
 	MsgId      int64  `json:"msgId,omitempty"`    //推送消息数据库记录id
 	MsgType    int    `json:"msgType,omitempty"`  //消息类型
-	BusMsgType int
+	BusMsgType int    `json:"busMsgType,omitempty"`  //业务消息类型
+	MsgKey    string `json:"msgKey"`
 	MsgLogId   int64  `json:"msgLogId,omitempty"` //用户消息数据库记录id
 }
