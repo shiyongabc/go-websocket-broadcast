@@ -17,7 +17,7 @@ type JsonResponse struct {
 func (base *BaseController) sendOk(w http.ResponseWriter, m interface{}) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(&JsonResponse{Error: 0, Data: m, Message: ""}); err != nil {
+	if err := json.NewEncoder(w).Encode(m); err != nil {
 		base.sendError(w, http.StatusInternalServerError, "Internal Server Error")
 	}
 }
