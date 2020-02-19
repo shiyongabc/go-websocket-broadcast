@@ -18,6 +18,7 @@ type UpdateMessage struct {
 	ID int64
 	MsgType    int    //消息类型 1发送在线用户即时消息 2登录后必达消息
 	BusMsgType int
+	IsRead int
 	UserIds    string //用户id以,号分隔
 	SenderId   int64  //发送者id
 }

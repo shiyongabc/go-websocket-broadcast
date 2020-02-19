@@ -43,11 +43,13 @@ func (PushMessageModel) Update(m PushMessageModel) int64 {
 
 	m.CreateTime = time.Now().Format(config.TIMESTAMP_FORMAT)
     if m.ID!=0{
-		db=db.Update(&m).Where("id=?",m.ID)
+		//db=db.Update(&m).Where("id=?",m.ID)
+		db.Model(PushMessageModel{}).Where("id=?",m.ID).Update("is_read",1)
 	}else{
-		db=db.Update(&m).Where("bus_msg_type=? and user_ids=?",m.BusMsgType,m.UserIds)
+		//db=db.Update(&m).Where("bus_msg_type=? and user_ids=?",m.BusMsgType,m.UserIds)
+		db.Model(PushMessageModel{}).Where("bus_msg_type=? and user_ids=?",m.BusMsgType,m.UserIds).Update("is_read",1)
 	}
-
+   
 	defer db.Close()
 	return db.RowsAffected
 }
