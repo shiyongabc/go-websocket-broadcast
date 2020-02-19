@@ -103,7 +103,6 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 		return
 	}
 	log.Printf("UpdateMessage=",pm)
-	fmt.Fprintf(w,"UpdateMessage",pm)
     reqCookie,error:=r.Cookie("Authorization")
     if error!=nil{
 		log.Printf("error=",error.Error())
@@ -111,7 +110,6 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 	}
 	if !CheckToken(reqCookie.Value) {
 		log.Printf("reqCookie.Value=",reqCookie.Value)
-		fmt.Fprintf(w,"reqCookie.Value1",reqCookie.Value)
 		c.sendError(w,-1,"认证信息无效")
 		return
 	}
