@@ -83,6 +83,9 @@ func ObtainUserByToken(authorization string,key string) string{
 	//  a,error:=  jwt.DecodeSegment(jwtToken)
 	var cl jwt.MapClaims
 	//	var cc Claims
+	if token==nil{
+		return ""
+	}
 	cl = token.Claims.(jwt.MapClaims)
 	userJwt:=cl[key]
 	var userJwtStr string
