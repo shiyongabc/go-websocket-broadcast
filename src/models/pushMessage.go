@@ -48,7 +48,7 @@ func (PushMessageModel) Update(m PushMessageModel) int64 {
 		db=db.Model(PushMessageModel{}).Where("id=?",m.ID).Update("is_read",1)
 	}else{
 		//db=db.Update(&m).Where("bus_msg_type=? and user_ids=?",m.BusMsgType,m.UserIds)
-		db=db.Model(PushMessageModel{}).Where("bus_msg_type=? and user_ids=?",m.BusMsgType,m.UserIds).Update("is_read",1)
+		db=db.Model(PushMessageModel{}).Where("bus_msg_type=? and user_ids=? and msg_key=?",m.BusMsgType,m.UserIds,m.MsgKey).Update("is_read",1)
 	}
 
 	defer db.Close()

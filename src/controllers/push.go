@@ -116,7 +116,7 @@ func (c *PushController) UpdateReadStatus(w http.ResponseWriter, r *http.Request
 
 	//数据写入到数据库
 	var pushMsgModel models.PushMessageModel
-	RowsAffected:= pushMsgModel.Update(models.PushMessageModel{ID: pm.ID,IsRead:pm.IsRead, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType, UserIds: pm.UserIds})
+	RowsAffected:= pushMsgModel.Update(models.PushMessageModel{ID: pm.ID,IsRead:pm.IsRead, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType, UserIds: pm.UserIds,MsgKey:pm.MsgKey})
 
 	c.sendOk(w,RowsAffected)
 }

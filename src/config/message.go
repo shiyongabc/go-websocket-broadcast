@@ -20,6 +20,7 @@ type UpdateMessage struct {
 	BusMsgType int
 	IsRead int
 	UserIds    string //用户id以,号分隔
+	MsgKey    string //MsgKey 业务消息key
 	SenderId   int64  //发送者id
 }
 //推送数据结构
