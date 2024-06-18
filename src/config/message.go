@@ -49,6 +49,7 @@ type MessageData struct {
 	MsgId      int64  `json:"msgId,omitempty"`    //推送消息数据库记录id
 	MsgType    int    `json:"msgType,omitempty"`  //消息类型
 	BusMsgType int    `json:"busMsgType,omitempty"`  //业务消息类型
+	NoReadTotal int  `json:"noReadTotal,omitempty"`  //未读消息总数量
 	MsgKey    string `json:"msgKey"`
 	MsgLogId   int64  `json:"msgLogId,omitempty"` //用户消息数据库记录id
 }

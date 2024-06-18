@@ -1,8 +1,10 @@
 package models
+
 import (
-	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
+	"go-websocket-broadcast/src/config"
+	"go-websocket-broadcast/src/utils"
+	"log"
 	"time"
-	"github.com/shiyongabc/go-websocket-broadcast/src/config"
 )
 
 type PushMessageLogModel struct {
@@ -91,6 +93,7 @@ func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime in
 	db, err := BaseModel.ConnectDB("default")
 	var mustReadData []config.MessageData
 	if err != nil {
+		log.Fatal("err=",err.Error())
 		return mustReadData
 	}
 	defer db.Close()
@@ -98,7 +101,7 @@ func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime in
 	var data []PushMessageLogModel
 	db.Where("user_id = ? and msg_type = 2 and status in(0, 2) and deleted = 0 and UNIX_TIMESTAMP(create_time) > ? ",
 		userId, unixtime).Limit(config.LAST_MSG_NUM_LIMIT).Find(&data)
-
+    log.Println("data=",data)
 	for _, row := range data {
 		//对发送失败的消息做重复发送检查
 		if row.Status == 2 {
@@ -114,10 +117,36 @@ func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime in
 
 		var pm PushMessageModel
 		db.First(&pm, row.MsgId)
+		log.Printf("pm=",pm)
+
+		//查询未读的消息总数
+		var pmTotal PushMessageModel
+		noReadTotal:=0
+		db.Model(&pmTotal).Where("user_ids = ? and is_read = 0", userId).Count(&noReadTotal)
+
 
 		mustReadData = append(mustReadData, config.MessageData{SenderId: pm.SenderId, SenderName: pm.SenderName, MsgTime: pm.CreateTime, Title: pm.Title,
-			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType, MsgLogId: row.ID})
+			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType,BusMsgType: pm.BusMsgType, MsgLogId: row.ID,NoReadTotal:noReadTotal})
 	}
+	//如果没有未发送信息 发送最新一条
+	if len(mustReadData)<=0{
+		var pm PushMessageModel
+		db.First(&pm,"user_ids=?",userId)
+		log.Printf("pm=",pm)
+
+		//查询未读的消息总数
+		var pmTotal PushMessageModel
+		noReadTotal:=0
+		db.Model(&pmTotal).Where("user_ids = ? and is_read = 0", userId).Count(&noReadTotal)
+
+
+		mustReadData = append(mustReadData, config.MessageData{SenderId: pm.SenderId, SenderName: pm.SenderName, MsgTime: pm.CreateTime, Title: pm.Title,
+			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType,BusMsgType: pm.BusMsgType,NoReadTotal:noReadTotal})
+	}
+	//查询未读的消息总数
+	var pmTotal PushMessageModel
+	noReadTotal:=0
+	db.Model(&pmTotal).Where("user_ids = ? and is_read = 0", userId).Count(&noReadTotal)
 
 	return mustReadData
 }

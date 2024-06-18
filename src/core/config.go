@@ -2,6 +2,7 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
@@ -53,8 +54,10 @@ func (c *config) Init() {
 	} else {
 		Config.AppEnv = appenv
 	}
-
-	file, err := os.Open("config." + Config.AppEnv + ".json")
+	exPath,_ := os.Getwd()
+	fmt.Println("expath",exPath)
+	separatorString := string(os.PathSeparator)
+	file, err := os.Open(exPath+separatorString+"src"+separatorString+"config." + Config.AppEnv + ".json")
 	if err != nil {
 		log.Fatal(err)
 	}

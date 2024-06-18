@@ -1,13 +1,12 @@
 package main
 
 import (
+	"go-websocket-broadcast/src/core"
 	"io"
 	"net/http"
 	"time"
-
-	"github.com/shiyongabc/go-websocket-broadcast/src/controllers"
-	"github.com/shiyongabc/go-websocket-broadcast/src/core"
-	"github.com/shiyongabc/go-websocket-broadcast/src/server"
+	"go-websocket-broadcast/src/controllers"
+	"go-websocket-broadcast/src/server"
 	"github.com/gorilla/websocket"
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
@@ -47,7 +46,7 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	uid, _ := uuid.NewV4()
+	uid:= uuid.NewV4()
 	sha1 := uid.String()
 
 	//初始化一个客户端对象

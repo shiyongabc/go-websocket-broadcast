@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"time"
 	"github.com/gorilla/websocket"
-	"github.com/shiyongabc/go-websocket-broadcast/src/config"
-	"github.com/shiyongabc/go-websocket-broadcast/src/models"
-	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
+	"go-websocket-broadcast/src/config"
+	"go-websocket-broadcast/src/models"
+	"go-websocket-broadcast/src/utils"
 	log "github.com/sirupsen/logrus"
 )
 type Client struct {
@@ -56,7 +56,7 @@ func (c *Client) Read() {
 
 		c.Token = rm.Token
 		userId:=utils.ObtainUserByToken(c.Token,"userId")
-		log.Printf("userId=",userId)
+		//log.Printf("userId=",userId)
 		c.UserId=userId
 		jsonMessage, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "register"})
 		c.Send <- jsonMessage
@@ -155,7 +155,7 @@ func (c *Client) CheckToken(reqToken string) bool {
 	var expSecond string
 	expSecond=utils.ObtainUserByToken(reqToken,"exp")
 	 exp, err:= strconv.ParseInt(expSecond, 10, 64)
-     log.Printf("exp=",exp)
+     //log.Printf("exp=",exp)
      if err!=nil{
      	log.Printf("err=",err.Error())
 	 }

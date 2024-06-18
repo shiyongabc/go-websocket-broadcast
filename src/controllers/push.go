@@ -4,16 +4,16 @@ import (
 	"crypto/md5"
 	"encoding/json"
 	"fmt"
-	"github.com/shiyongabc/go-websocket-broadcast/src/server"
-	"github.com/shiyongabc/go-websocket-broadcast/src/utils"
+	"go-websocket-broadcast/src/server"
+	"go-websocket-broadcast/src/utils"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/shiyongabc/go-websocket-broadcast/src/config"
-	"github.com/shiyongabc/go-websocket-broadcast/src/core"
-	"github.com/shiyongabc/go-websocket-broadcast/src/models"
+	"go-websocket-broadcast/src/config"
+	"go-websocket-broadcast/src/core"
+	"go-websocket-broadcast/src/models"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -52,9 +52,9 @@ func (c *PushController) Push(w http.ResponseWriter, r *http.Request) {
 	var pushMsgModel models.PushMessageModel
 	msgId := pushMsgModel.Create(models.PushMessageModel{SenderId: pm.SenderId, SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
 		Options: pm.Options, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType,MsgKey:pm.MsgKey, UserIds: pm.UserIds})
-
+//BusMsgType:pm.BusMsgType,
 	data := config.MessageData{SenderId: pm.SenderId, MsgTime: time.Now().Format(config.TIMESTAMP_FORMAT), SenderName: pm.SenderName, Title: pm.Title, Content: pm.Content,
-		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType,BusMsgType:pm.BusMsgType,MsgKey:pm.MsgKey}
+		Options: pm.Options, MsgId: msgId, MsgType: pm.MsgType,MsgKey:pm.MsgKey}
 	message, _ := json.Marshal(&config.ResMessage{Error: 0, Msg: "ok", Event: "message", Data: data})
     println("message=%s",message)
 	if pm.UserIds == "0" { //发全部

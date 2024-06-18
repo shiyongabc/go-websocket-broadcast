@@ -2,7 +2,7 @@ package models
 import (
 	"time"
 
-	"github.com/shiyongabc/go-websocket-broadcast/src/config"
+	"go-websocket-broadcast/src/config"
 )
 
 type PushMessageModel struct {

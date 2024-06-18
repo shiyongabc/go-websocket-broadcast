@@ -1,11 +1,11 @@
 package utils
+
 import (
+	"fmt"
+	"github.com/shiyongabc/jwt-go"
 	"strconv"
 	"strings"
 	"time"
-	"fmt"
-	"github.com/shiyongabc/jwt-go"
-	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -77,8 +77,8 @@ func ObtainUserByToken(authorization string,key string) string{
 	}
 	jwtToken:=  authorization;
 	jwtToken= strings.Replace(jwtToken,"bearer%20","",-1)
-	token,error:=  jwt.Parse(jwtToken,GetValidationKey)
-	log.Printf("jwtToken=",error)
+	token,_:=  jwt.Parse(jwtToken,GetValidationKey)
+	//log.Printf("jwtToken=",error)
 	//token,error:=ParseWithClaims(jwtToken,MapClaims{},getValidationKey)
 	//  a,error:=  jwt.DecodeSegment(jwtToken)
 	var cl jwt.MapClaims

@@ -11,7 +11,7 @@
   </div>
 </body>
   <!-- import Vue before Element -->
-  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue@2.7.0/dist/vue.js"></script>
   <!-- import JavaScript -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script>
@@ -36,7 +36,8 @@
             }
 
             var that = this;
-            this.ws = new WebSocket("ws://58.16.65.208:8080/ws");
+            //this.ws = new WebSocket("ws://192.168.0.14:8081/ws");
+            this.ws = new WebSocket("ws://chick.vimihome.com:8088/ws");
             this.ws.onclose = function(e) {
                 clearInterval(that.interval)
                 if(!that.retryConnect) {
@@ -50,7 +51,7 @@
             this.ws.addEventListener('open', function (e) {
                 //必须带上token 验证  获取cookie的Authorization
                 // bearer%20eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzQ29kZSI6IjUyMDYwMDAwMDAwMCIsImNsaWVudE9yZ0NsYXNzIjoib3JnX2NyZWRpdCIsInVzZXJfbmFtZSI6ImNyZWRpdC1zdXBlciIsIm9wZW5pZCI6Ijk3NmMyMGU2LWRkNTEtNGFiMy1iYTAxLWJkYzhmMWE2MjJlMyIsInVzZXJJZCI6IjFmNWE3MDIwLThhMjEtNDc4OC04Njg0LWJmNjJjOWI2ODQ3MSIsImNsaWVudF9pZCI6IjFhMmM2OTNkLTlmZDMtNGE1Yy04ZDhkLWRmNDkwN2QzODYxOCIsImF1ZCI6WyJpbmR1c3RyaWFsLXBsYXRmb3JtIiwiYXV0aC1zZXJ2ZXIiLCJkYXRhLWRpcmVjdG9yeSIsIm1lcmNoYW50LXBsYXRmb3JtIiwiZWJiLXBsYXRmb3JtIiwiaW5mby1zZXJ2ZXIiXSwib3JnQ29kZSI6bnVsbCwic2NvcGUiOlsidXNlci1tZSJdLCJ1c2VyUmVnaW9uTGV2ZXIiOiIyIiwiZXhwIjoxNTc5OTM4OTQzLCJqb2IiOiJvcmdfY3JlZGl0X3N1cGVyIiwianRpIjoiMmUxODE3ODQtNzU5MS00Yjg5LTk2YmItZjNlNDAwMDY5ODM1In0.efwN6ZeG8TrJ00simt8qMU2iRPKNliaU4qSqlraGX7OddjodcZPbwusWSK7j9z1wfuKr0fvuvimU-t4uS-S7WUhtX64o4LaxQaCmoX29QfZC6hqMID8hEQzYPi-PScK-9UO_8KP79LP-GfNKzAdhv6gpcds1FcivEwMU3cKCWGK7B1OYOOm_9qzIfZTvhRCtr5Ra8yN_HL6jWpwwULA5Hg5K3FLqdu7O4NjrNTNx4zFvQz-8FTLCD0k5Vde5bEA5d0HVxFeNWazb01liG4fiWkJWts8icAp8YIHqRtUWrB9umY_BIyo6ZsrHurj2AvxfJPpz-a4ogv78TsOHRgO_LA; gateway-session=MTU3NzQxMDE2NXxEdi1CQkFFQ180SUFBUkFCRUFBQUx2LUNBQUVHYzNSeWFXNW5EQW9BQ0hWelpYSnVZVzFsQm5OMGNtbHVad3dPQUF4amNtVmthWFF0YzNWd1pYST18z3osK9b7o-GIjfqJBmzxkammGYc5pOkkQHqXIMuEOcI=
-                that.ws.send('{"event":"register", "token":"bearer%20eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzQ29kZSI6IjUyMDYwMjAwMDAwMCIsImNsaWVudE9yZ0NsYXNzIjoib3JnX3ZpbWlfb3BlciIsInVzZXJfbmFtZSI6InZpbWktc3VwZXIiLCJvcGVuaWQiOiJjNDdlNGE5My02Mzc1LTQ5ZjQtOTdlMy1kYzlmZThlMmE5MjQiLCJ1c2VySWQiOiIxODg5M2ZjMi1hMTJhLTRhMTktYTNlZS05ZTkxMjkyZWM4NjIiLCJjbGllbnRfaWQiOiI5ODE0ZTZlYS0zOGZiLTQwNTktODFmZC1kNjZjMzQ3MTZjNTEiLCJhdWQiOlsiaW5kdXN0cmlhbC1wbGF0Zm9ybSIsImF1dGgtc2VydmVyIiwiZGF0YS1kaXJlY3RvcnkiLCJtZXJjaGFudC1wbGF0Zm9ybSIsImViYi1wbGF0Zm9ybSIsImluZm8tc2VydmVyIl0sIm9yZ0NvZGUiOm51bGwsInNjb3BlIjpbInVzZXItbWUiLCJ1c2VyIl0sInVzZXJSZWdpb25MZXZlciI6bnVsbCwiZXhwIjoxODQxMjczMTYzLCJqb2IiOiJvcmdfY29ycCIsImp0aSI6IjdjMjQyN2RjLTAzYmEtNGQ0Yi05NTBkLTMyMjgzYmRjOTYwZCJ9.PLAxRfnPtYYu6Ykf-Hon5MSojPzHjdalOGM61NvIrrhtCRUhArAMuyu7XLEGrOwsCTH3dzGshv7HNMrvC3dEB_AIVuFHrOpGY8LG-15BGQkzxPQ6Slc7vYlsoNPY_APgaVN16_OEe_e9Yf9t_1mZrOapK2uuJXvU39oPpM0eKfYlOsalGk1V5sAfsWBh9qhLrLw3JAXNB5svPZmFWHSKT1rePsTLlv-rhT9E6V4f_Vf1Cdccoo1VAGPlJ0lS0u-pcCV8B86XYmMUjJ6KGCkxpQ91NbaOYE2-W5I4mXdqmZSeY2h-hbPu79J0hrfV-JJQ6Inedi7KeHkJCmZV8g7A3g"}');
+                that.ws.send('{"event":"register", "token":"bearer%20eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzQ29kZSI6IjUyMDYwMjAwMTAwMSIsImNsaWVudE9yZ0NsYXNzIjoib3JnX2VudGVycHJpc2UiLCJ1c2VyX25hbWUiOiJ0ZXN0LWNnMSIsIm9wZW5pZCI6IjllMTg1YmRmLWFlNzctNDI4Ny1hNTkwLTRlY2JhYzM0ZTkwZiIsInVzZXJJZCI6IjFjMjc3MTBiLTRhYTQtNGY4NC04MzM4LTAyY2VlYmFjOTZiNyIsImNsaWVudF9pZCI6ImRlODc5NmU3LTU3YTgtNDI0Ny05YTJjLTIzZjE1OTI1NzgxMSIsImF1ZCI6WyJpbmR1c3RyaWFsLXBsYXRmb3JtIiwiYXV0aC1zZXJ2ZXIiLCJpb3QtcHJveHktcGxhdGZvcm0iXSwib3JnQ29kZSI6bnVsbCwic2NvcGUiOlsidXNlci1tZSIsInVzZXIiLCJlbnRlcnByaXNlIiwidHJhY2VPIiwicm9ib3QiLCJmYWN0b3J5TSIsImZhY3RvcnlWR00iLCJmaWFubmNlRSIsInB1cmNoYXNlRSIsInB1cmNoYXNlVkdNIiwic3RvcmVFIiwic2FsZUVFIiwicHVyY2hhc2VHTSIsIkNHWSIsInBNYW5hZ2UiLCJmTWFuYWdlIiwiZ2VuTWFuYWdlIiwic3RvcmVBcHByb3ZhbCIsInN0b3JlUCIsIkNHWU8iLCJDaHVuYSIsImFkbWluIl0sInVzZXJSZWdpb25MZXZlciI6IjIiLCJleHAiOjE3MjEyNzMwMDQsImpvYiI6Im9yZ19lbXAiLCJqdGkiOiJiZjY0YzQ4MS1iZmYwLTRiZTItOWY3My02YWM1MzQwM2U0MGMifQ.JkVxKvbYuSJ8VoYVBISpMkB0kEAojRxBuSsaLDjMqmyiKZJbd6a_RVJ6m41Si1KLeJyMVi8XGBBSzr2EkHyAS_HMm7vxRndYenzIkPuOgB6zhPozhvxUKsKolmxNONADOmWX_DIsyCVtWDZMRNwOP1C6FXNrJlR2SAjKjUvYKngMeat2mxM4fafAbv9hIh3ysaVtfHLPMBS2AsXPDs4aGrtCNBI-2ygY8iYovoqp-wxH34z-NFvmLEBz5nwzOVsCcS_lMwASstBuDxfZZbDKay-_DzPggxtrAX9JI5hyWeI3_wXuhccA4DkL9lxwRI5tmzCh0mrzbrEdMR2NQ3PmlQ"}');
             });
 
             this.ws.addEventListener("message", function(e) {
@@ -73,7 +74,7 @@
                     console.log('ws connection register success ')
                     that.interval = setInterval(function() {
                         //保此常连接心跳
-                        that.ws.send('{}')
+                        that.ws.send('{"event":"register", "token":"bearer%20eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzQ29kZSI6IjUyMDYwMjAwMTAwMSIsImNsaWVudE9yZ0NsYXNzIjoib3JnX2VudGVycHJpc2UiLCJ1c2VyX25hbWUiOiJ0ZXN0LWNnMSIsIm9wZW5pZCI6IjllMTg1YmRmLWFlNzctNDI4Ny1hNTkwLTRlY2JhYzM0ZTkwZiIsInVzZXJJZCI6IjFjMjc3MTBiLTRhYTQtNGY4NC04MzM4LTAyY2VlYmFjOTZiNyIsImNsaWVudF9pZCI6ImRlODc5NmU3LTU3YTgtNDI0Ny05YTJjLTIzZjE1OTI1NzgxMSIsImF1ZCI6WyJpbmR1c3RyaWFsLXBsYXRmb3JtIiwiYXV0aC1zZXJ2ZXIiLCJpb3QtcHJveHktcGxhdGZvcm0iXSwib3JnQ29kZSI6bnVsbCwic2NvcGUiOlsidXNlci1tZSIsInVzZXIiLCJlbnRlcnByaXNlIiwidHJhY2VPIiwicm9ib3QiLCJmYWN0b3J5TSIsImZhY3RvcnlWR00iLCJmaWFubmNlRSIsInB1cmNoYXNlRSIsInB1cmNoYXNlVkdNIiwic3RvcmVFIiwic2FsZUVFIiwicHVyY2hhc2VHTSIsIkNHWSIsInBNYW5hZ2UiLCJmTWFuYWdlIiwiZ2VuTWFuYWdlIiwic3RvcmVBcHByb3ZhbCIsInN0b3JlUCIsIkNHWU8iLCJDaHVuYSIsImFkbWluIl0sInVzZXJSZWdpb25MZXZlciI6IjIiLCJleHAiOjE3MjEyNzMwMDQsImpvYiI6Im9yZ19lbXAiLCJqdGkiOiJiZjY0YzQ4MS1iZmYwLTRiZTItOWY3My02YWM1MzQwM2U0MGMifQ.JkVxKvbYuSJ8VoYVBISpMkB0kEAojRxBuSsaLDjMqmyiKZJbd6a_RVJ6m41Si1KLeJyMVi8XGBBSzr2EkHyAS_HMm7vxRndYenzIkPuOgB6zhPozhvxUKsKolmxNONADOmWX_DIsyCVtWDZMRNwOP1C6FXNrJlR2SAjKjUvYKngMeat2mxM4fafAbv9hIh3ysaVtfHLPMBS2AsXPDs4aGrtCNBI-2ygY8iYovoqp-wxH34z-NFvmLEBz5nwzOVsCcS_lMwASstBuDxfZZbDKay-_DzPggxtrAX9JI5hyWeI3_wXuhccA4DkL9lxwRI5tmzCh0mrzbrEdMR2NQ3PmlQ"}');
                     }, 60000)
                     that.retryConnect = true
                     return;
