@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -57,7 +58,16 @@ func (c *config) Init() {
 	exPath,_ := os.Getwd()
 	fmt.Println("expath",exPath)
 	separatorString := string(os.PathSeparator)
-	file, err := os.Open(exPath+separatorString+"src"+separatorString+"config." + Config.AppEnv + ".json")
+	// /src/src/
+	projectDir:=exPath
+	configPatchStr:=projectDir+separatorString+"src"+separatorString+"config." + Config.AppEnv + ".json"
+	if strings.Contains(exPath,"go-websocket-broadcast"+separatorString+"src"){
+		configPatchStr=projectDir+separatorString+"config." + Config.AppEnv + ".json"
+	}
+
+	
+	log.Info("configPatchStr=",configPatchStr)
+	file, err := os.Open(configPatchStr)
 	if err != nil {
 		log.Fatal(err)
 	}
