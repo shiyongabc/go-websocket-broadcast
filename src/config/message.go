@@ -52,4 +52,14 @@ type MessageData struct {
 	NoReadTotal int  `json:"noReadTotal,omitempty"`  //未读消息总数量
 	MsgKey    string `json:"msgKey"`
 	MsgLogId   int64  `json:"msgLogId,omitempty"` //用户消息数据库记录id
+	MessList   []Message `json:"messList,omitempty"` //未读消息列表
+}
+func (Message) TableName() string {
+	return "xhx_push_message"
+}
+type Message struct{
+	ID      int64  `json:"id,omitempty"`    //推送消息数据库记录id
+	Title      string `json:"title"`
+	Content    string `json:"content"`
+	CreateTime    string `json:"createTime"`
 }

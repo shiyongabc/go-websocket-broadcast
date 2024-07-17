@@ -65,7 +65,7 @@ func (c *config) Init() {
 		configPatchStr=projectDir+separatorString+"config." + Config.AppEnv + ".json"
 	}
 
-	
+
 	log.Info("configPatchStr=",configPatchStr)
 	file, err := os.Open(configPatchStr)
 	if err != nil {

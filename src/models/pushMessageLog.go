@@ -124,9 +124,12 @@ func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime in
 		noReadTotal:=0
 		db.Model(&pmTotal).Where("user_ids = ? and is_read = 0", userId).Count(&noReadTotal)
 
-
+		//查询未读消息列表
+		var messList []config.Message
+		db.Where("user_ids = ? and is_read = 0", userId).Limit(config.LAST_MSG_NUM_LIMIT).Order("create_time DESC").Find(&messList)
+		log.Println("messList0=",messList)
 		mustReadData = append(mustReadData, config.MessageData{SenderId: pm.SenderId, SenderName: pm.SenderName, MsgTime: pm.CreateTime, Title: pm.Title,
-			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType,BusMsgType: pm.BusMsgType, MsgLogId: row.ID,NoReadTotal:noReadTotal})
+			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType,BusMsgType: pm.BusMsgType, MsgLogId: row.ID,NoReadTotal:noReadTotal,MessList:messList})
 	}
 	//如果没有未发送信息 发送最新一条
 	if len(mustReadData)<=0{
@@ -139,14 +142,13 @@ func (pml PushMessageLogModel) GetMustReadMsgByUserId(userId string, unixtime in
 		noReadTotal:=0
 		db.Model(&pmTotal).Where("user_ids = ? and is_read = 0", userId).Count(&noReadTotal)
 
-
+        //查询未读消息列表
+        var messList []config.Message
+		db.Where("user_ids = ? and is_read = 0", userId).Limit(config.LAST_MSG_NUM_LIMIT).Order("create_time DESC").Find(&messList)
+		log.Println("messList1=",messList)
 		mustReadData = append(mustReadData, config.MessageData{SenderId: pm.SenderId, SenderName: pm.SenderName, MsgTime: pm.CreateTime, Title: pm.Title,
-			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType,BusMsgType: pm.BusMsgType,NoReadTotal:noReadTotal})
+			Content: pm.Content, Options: pm.Options, MsgId: pm.ID, MsgType: pm.MsgType,BusMsgType: pm.BusMsgType,NoReadTotal:noReadTotal,MessList:messList})
 	}
-	//查询未读的消息总数
-	var pmTotal PushMessageModel
-	noReadTotal:=0
-	db.Model(&pmTotal).Where("user_ids = ? and is_read = 0", userId).Count(&noReadTotal)
 
 	return mustReadData
 }

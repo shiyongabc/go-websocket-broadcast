@@ -36,8 +36,8 @@
             }
 
             var that = this;
-            //this.ws = new WebSocket("ws://192.168.0.14:8081/ws");
-            this.ws = new WebSocket("ws://chick.vimihome.com:8088/ws");
+            this.ws = new WebSocket("ws://127.0.0.1:8081/ws");
+            //this.ws = new WebSocket("ws://chick.vimihome.com:8088/ws");
             this.ws.onclose = function(e) {
                 clearInterval(that.interval)
                 if(!that.retryConnect) {
