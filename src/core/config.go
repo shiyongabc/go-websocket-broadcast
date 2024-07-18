@@ -17,6 +17,8 @@ type config struct {
 	Logger    Logger
 	Database  map[string]Database
 	Listen    string
+	ServerCrt    string
+	ServerKey    string
 	APISecret string
 	AppEnv    string
 	AppName   string
@@ -60,9 +62,11 @@ func (c *config) Init() {
 	separatorString := string(os.PathSeparator)
 	// /src/src/
 	projectDir:=exPath
+	crtBaseUrl:=projectDir+separatorString+"src"+separatorString
 	configPatchStr:=projectDir+separatorString+"src"+separatorString+"config." + Config.AppEnv + ".json"
 	if strings.Contains(exPath,"go-websocket-broadcast"+separatorString+"src"){
 		configPatchStr=projectDir+separatorString+"config." + Config.AppEnv + ".json"
+		crtBaseUrl=projectDir+separatorString
 	}
 
 
@@ -79,7 +83,8 @@ func (c *config) Init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	c.ServerCrt=crtBaseUrl+c.ServerCrt
+	c.ServerKey=crtBaseUrl+c.ServerKey
 	cwd, _ := os.Getwd()
 	if Config.BasePath != "" {
 		cwd = Config.BasePath

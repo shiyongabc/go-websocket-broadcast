@@ -2,6 +2,8 @@
     "AppName":"xhx_pushservice",
     "Listen": ":8081",
     "APISecret":"dev",
+    "ServerCrt":"chick.vimihome.com_bundle.crt",
+    "ServerKey":"chick.vimihome.com.key",
     "BasePath":"/mnt/hgfs/git/xhx_pushservice/src",
     "Logger": {
         "Debug": true,
