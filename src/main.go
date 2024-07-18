@@ -32,10 +32,10 @@ func main() {
 	log.Infof("Server started %s ...", core.Config.Listen)
 	http.HandleFunc("/ws", wsPage)
 	// 配置TLS
-	err := http.ListenAndServeTLS(core.Config.Listen, core.Config.ServerCrt, core.Config.ServerKey, nil)
-	if err != nil {
-		log.Fatal("ListenAndServeTLS error:", err)
-	}
+	//err := http.ListenAndServeTLS(core.Config.Listen, core.Config.ServerCrt, core.Config.ServerKey,nil)
+	//if err != nil {
+	//	log.Fatal("ListenAndServeTLS error:", err)
+	//}
 	var pc controllers.PushController
 	http.HandleFunc("/message/push", pc.Push)
 	http.HandleFunc("/message/update_status", pc.UpdateReadStatus)
