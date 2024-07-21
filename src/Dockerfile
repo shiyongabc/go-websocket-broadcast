@@ -8,4 +8,4 @@ COPY build/push_service /push_service
 RUN chmod +x /push_service
 EXPOSE 80
 
-CMD ["/push_service"]
+CMD ["/push_service pro"]
