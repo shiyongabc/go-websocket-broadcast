@@ -9,4 +9,4 @@ COPY config.pro.json /config.pro.json
 RUN chmod +x /push_service
 EXPOSE 80
 
-CMD ["/push_service pro"]
+CMD ["/push_service"]
