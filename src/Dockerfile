@@ -11,4 +11,4 @@ EXPOSE 80
 
 #CMD ["/push_service"]
 ENV PRO_CONFIG=pro
-ENTRYPOINT ["/push_service", "$PRO_CONFIG"]
+ENTRYPOINT ["/push_service $PRO_CONFIG"]
